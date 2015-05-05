@@ -1,0 +1,1 @@
+cmd_/home/schnegg/workspace/mx27_camera/mx27cam.ko := ~/armadeus/buildroot/output/host/usr/bin/arm-linux-ld -EL -r   --build-id -o /home/schnegg/workspace/mx27_camera/mx27cam.ko /home/schnegg/workspace/mx27_camera/mx27cam.o /home/schnegg/workspace/mx27_camera/mx27cam.mod.o
