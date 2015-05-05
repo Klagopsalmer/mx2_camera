@@ -4,6 +4,7 @@
  * Copyright (C) 2008, Sascha Hauer, Pengutronix
  * Copyright (C) 2010, Baruch Siach, Orex Computed Radiography
  * Copyright (C) 2012, Javier Martin, Vista Silicon S.L.
+ * Copyright (C) 2015, Alexandre Schnegg, Digger DTR
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +43,8 @@
 #include <linux/platform_data/camera-mx2.h>
 
 #include <asm/dma.h>
+
+#include <media/v4l2-of.h>
 
 #define MX2_CAM_DRV_NAME "mx2-camera"
 #define MX2_CAM_VERSION "0.0.6"
@@ -1483,6 +1486,11 @@ out:
 	return err;
 }
 
+static int mx2_camera_pdata_from_dt(struct device *dev,struct pxa_camera_dev *pcdev)
+{
+
+}
+
 static int mx2_camera_probe(struct platform_device *pdev)
 {
 	struct mx2_camera_dev *pcdev;
@@ -1609,9 +1617,16 @@ static int mx2_camera_remove(struct platform_device *pdev)
 	return 0;
 }
 
+static const struct of_device_id mx2_camera_of_match[] = {
+	{ .compatible = "fsl,mx27-camera", },
+	{},
+};
+MODULE_DEVICE_TABLE(of, mx2_camera_of_match);
+
 static struct platform_driver mx2_camera_driver = {
 	.driver		= {
 		.name	= MX2_CAM_DRV_NAME,
+		.of_match_table=of_match_ptr(mx2_camera_of_match),
 	},
 	.id_table	= mx2_camera_devtype,
 	.remove		= mx2_camera_remove,

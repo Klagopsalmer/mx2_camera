@@ -1,1 +1,1 @@
-cmd_/home/schnegg/workspace/mx27_camera/mx27cam.o := ~/armadeus/buildroot/output/host/usr/bin/arm-linux-ld -EL    -r -o /home/schnegg/workspace/mx27_camera/mx27cam.o /home/schnegg/workspace/mx27_camera/main.o 
+cmd_/home/schnegg/workspace/mx27_camera/mx27cam.o := /home/schnegg/armadeus/buildroot/output/host/usr/bin/arm-linux-ld -EL    -r -o /home/schnegg/workspace/mx27_camera/mx27cam.o /home/schnegg/workspace/mx27_camera/main.o 
