@@ -1437,7 +1437,7 @@ static int mx27_camera_emma_init(struct platform_device *pdev)
 
 	res_emma = platform_get_resource(pdev, IORESOURCE_MEM, 1);
 	irq_emma = platform_get_irq(pdev, 1);
-	if (!res_emma || !irq_emma) {
+	if (!res_emma || irq_emma<0) {
 		dev_err(pcdev->dev, "no EMMA resources\n");
 		err = -ENODEV;
 		goto out;
@@ -1446,6 +1446,7 @@ static int mx27_camera_emma_init(struct platform_device *pdev)
 	pcdev->base_emma = devm_ioremap_resource(pcdev->dev, res_emma);
 	if (IS_ERR(pcdev->base_emma)) {
 		err = PTR_ERR(pcdev->base_emma);
+		pr_err("error ioremap rate\n");
 		goto out;
 	}
 
@@ -1459,6 +1460,7 @@ static int mx27_camera_emma_init(struct platform_device *pdev)
 	pcdev->clk_emma_ipg = devm_clk_get(pcdev->dev, "emma-ipg");
 	if (IS_ERR(pcdev->clk_emma_ipg)) {
 		err = PTR_ERR(pcdev->clk_emma_ipg);
+		pr_err("error clk get \n");
 		goto out;
 	}
 
@@ -1467,6 +1469,7 @@ static int mx27_camera_emma_init(struct platform_device *pdev)
 	pcdev->clk_emma_ahb = devm_clk_get(pcdev->dev, "emma-ahb");
 	if (IS_ERR(pcdev->clk_emma_ahb)) {
 		err = PTR_ERR(pcdev->clk_emma_ahb);
+		pr_err("error clk get\n");
 		goto exit_clk_emma_ipg;
 	}
 
@@ -1498,7 +1501,7 @@ static int mx2_camera_probe(struct platform_device *pdev)
 	int irq_csi;
 	int err = 0;
 
-	dev_dbg(&pdev->dev, "initialising\n");
+	pr_info("initialising\n");
 
 	res_csi = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	irq_csi = platform_get_irq(pdev, 0);
@@ -1539,10 +1542,12 @@ static int mx2_camera_probe(struct platform_device *pdev)
 						pcdev->pdata->clk * 2);
 		if (rate <= 0) {
 			err = -ENODEV;
+			pr_err("error round rate\n");
 			goto exit;
 		}
 		err = clk_set_rate(pcdev->clk_csi_per, rate);
 		if (err < 0)
+			pr_err("error set rate\n");
 			goto exit;
 	}
 
@@ -1554,6 +1559,7 @@ static int mx2_camera_probe(struct platform_device *pdev)
 	pcdev->base_csi = devm_ioremap_resource(&pdev->dev, res_csi);
 	if (IS_ERR(pcdev->base_csi)) {
 		err = PTR_ERR(pcdev->base_csi);
+		pr_err("error ioremap rate\n");
 		goto exit;
 	}
 
@@ -1561,8 +1567,10 @@ static int mx2_camera_probe(struct platform_device *pdev)
 	platform_set_drvdata(pdev, pcdev);
 
 	err = mx27_camera_emma_init(pdev);
-	if (err)
+	if (err){
+		pr_err("error emma init\n");
 		goto exit;
+	}
 
 	/*
 	 * We're done with drvdata here.  Clear the pointer so that
