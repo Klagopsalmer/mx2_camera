@@ -659,8 +659,14 @@ static int mx2_start_streaming(struct vb2_queue *q, unsigned int count)
 	int bytesperline;
 	unsigned long flags;
 
+
+	pr_info("mx2_start_streaming\n");
+
 	if (count < 2)
+	{
+		pr_err("Not enough buffers: %d !\n",count);
 		return -ENOBUFS;
+	}
 
 	spin_lock_irqsave(&pcdev->lock, flags);
 

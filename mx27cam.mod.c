@@ -17,9 +17,9 @@ __attribute__((section(".gnu.linkonce.this_module"))) = {
 static const char __module_depends[]
 __used
 __attribute__((section(".modinfo"))) =
-"depends=videobuf2-dma-contig,soc_camera,soc_mediabus,videobuf2-core";
+"depends=videobuf2-dma-contig,soc_camera,soc_mediabus,videobuf2-core,v4l2-common";
 
 MODULE_ALIAS("platform:imx27-camera");
 MODULE_ALIAS("of:N*T*Cfsl,mx27-camera*");
 
-MODULE_INFO(srcversion, "E24DC89614FEC981B50DADE");
+MODULE_INFO(srcversion, "E0806F9D488239B66700A5B");
